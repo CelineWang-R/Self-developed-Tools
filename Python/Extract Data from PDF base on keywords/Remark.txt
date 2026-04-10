@@ -1,0 +1,12 @@
+Python Tool: 
+
+Update:
+Latest -- 10/21/2025 4:11PM
+
+Purpose: To extract the daily index of 'Platts Singapore mogas 97 unleaded' from S&P Glbal Report.
+
+Procedure:
+1. Put the daily reports under the subfolder 'Daily Report'
+2. Check the filname of the reports to ensure it contain the date information in the format 'YYYYMMDD', like '20251001_APAG.pdf'
+3. Run the extract_data.py
+4. The index will be gathered in the 'MOPS Fuel Markets Daily Data.csv' under the subfolder 'Extracted Data'
