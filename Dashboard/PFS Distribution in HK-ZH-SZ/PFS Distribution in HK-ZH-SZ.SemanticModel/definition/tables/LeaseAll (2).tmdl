@@ -1,0 +1,66 @@
+table 'LeaseAll (2)'
+	lineageTag: cc73e162-e1ac-4d17-83b9-9879d4dd88e6
+
+	column Brand
+		dataType: string
+		lineageTag: 82f639a0-6721-4529-98c0-4013e6640a37
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site name'
+		dataType: string
+		lineageTag: 6a4c1216-7445-4231-a9cd-8aebac634e0c
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 93143b6e-1fba-4f4d-96d0-38adc6196aa3
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: b884e5ac-d21a-49dd-8746-af24dc51a55c
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 0907c176-af89-47b3-bb0f-1b04bda70329
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'LeaseAll (2)' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Celine Wang\OneDrive - Rosino-Axle\Desktop\Celine Wang\Project Caspian\Replicate\PowerBI Illustration\Map for Display\Data.xlsx"), null, true),
+				    LeaseAll_Table = Source{[Item="LeaseAll",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(LeaseAll_Table,{{"Brand", type text}, {"Site name", type text}, {"Lease type", type text}, {"Lease term", type text}, {"Lease expiry", type date}, {"Type", Int64.Type}, {"Latitude", type number}, {"Longitude", type number}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Lease type", "Lease term", "Lease expiry"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Columns",{{"Type", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type1","1","Present",Replacer.ReplaceText,{"Type"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","2","2030",Replacer.ReplaceText,{"Type"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","3","2040",Replacer.ReplaceText,{"Type"})
+				in
+				    #"Replaced Value2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
