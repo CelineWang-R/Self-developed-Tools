@@ -1,0 +1,128 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "090eed0038170440b769",
+  "displayName": "Main",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "objects": {
+    "outspace": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "''"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "Literal": {
+                    "Value": "''"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ],
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Backgroud1.jpg'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Backgroud16075603996402491.jpg"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Normal'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          },
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "aef7c954e11485183af8",
+      "target": "ec0fa6662e500c9d007f",
+      "type": "NoFilter"
+    },
+    {
+      "source": "da2869b4749984c31df8",
+      "target": "ec0fa6662e500c9d007f",
+      "type": "NoFilter"
+    },
+    {
+      "source": "fb92e02b0cabb90ec552",
+      "target": "ec0fa6662e500c9d007f",
+      "type": "NoFilter"
+    },
+    {
+      "source": "ec0fa6662e500c9d007f",
+      "target": "2f43130bf14654184b96",
+      "type": "NoFilter"
+    },
+    {
+      "source": "aef7c954e11485183af8",
+      "target": "2f43130bf14654184b96",
+      "type": "NoFilter"
+    },
+    {
+      "source": "da2869b4749984c31df8",
+      "target": "2f43130bf14654184b96",
+      "type": "NoFilter"
+    },
+    {
+      "source": "fb92e02b0cabb90ec552",
+      "target": "2f43130bf14654184b96",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f3761e7c51847aa3baf7",
+      "target": "2f43130bf14654184b96",
+      "type": "NoFilter"
+    }
+  ]
+}

@@ -1,0 +1,537 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ec0fa6662e500c9d007f",
+  "position": {
+    "x": 17.520661157024868,
+    "y": 65.0413223140496,
+    "z": 833,
+    "height": 464.5454545454545,
+    "width": 663.63636363636363,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "esriVisual",
+    "query": {
+      "queryState": {
+        "Color": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MapPoints"
+                    }
+                  },
+                  "Property": "Brand"
+                }
+              },
+              "queryRef": "MapPoints.Brand",
+              "nativeQueryRef": "Brand"
+            }
+          ]
+        },
+        "Latitude": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MapPoints"
+                    }
+                  },
+                  "Property": "Latitude"
+                }
+              },
+              "queryRef": "MapPoints.Latitude",
+              "nativeQueryRef": "Latitude"
+            }
+          ]
+        },
+        "Location": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MapPoints"
+                    }
+                  },
+                  "Property": "Address"
+                }
+              },
+              "queryRef": "MapPoints.Address",
+              "nativeQueryRef": "Address"
+            }
+          ]
+        },
+        "Longitude": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MapPoints"
+                    }
+                  },
+                  "Property": "Longitude"
+                }
+              },
+              "queryRef": "MapPoints.Longitude",
+              "nativeQueryRef": "Longitude"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "MapPoints"
+                    }
+                  },
+                  "Property": "Site name"
+                }
+              },
+              "queryRef": "MapPoints.Site name",
+              "nativeQueryRef": "Site name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimSite"
+                    }
+                  },
+                  "Property": "SiteKey"
+                }
+              },
+              "queryRef": "DimSite.SiteKey",
+              "nativeQueryRef": "Site code",
+              "displayName": "Site code"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "featureInfo": [
+        {
+          "properties": {
+            "selectedLayerKeys": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapObject": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"portalUrl\":\"https://www.arcgis.com\",\"version\":\"2.4\",\"isAuthorNamedUser\":false,\"map\":{\"webmap\":{\"is3d\":false,\"itemData\":{\"operationalLayers\":[{\"id\":\"19bf96d17c5-layer-33\",\"visibility\":true,\"opacity\":0.8,\"minScale\":9244649,\"maxScale\":36111,\"refreshInterval\":0,\"title\":\"Hong Kong 18 Districts\",\"url\":\"https://services3.arcgis.com/6j1KwZfY2fZrfNMR/arcgis/rest/services/Hong_Kong_18_Districts/FeatureServer/0\",\"itemId\":\"eea8ff2f12b145f7b33c4eef4f045513\",\"origItemId\":\"eea8ff2f12b145f7b33c4eef4f045513\",\"layerType\":\"ArcGISFeatureLayer\",\"isTable\":false,\"popupEnabled\":true,\"disablePopup\":false,\"esriMaps\":{\"isTimeEnabled\":\"false\",\"isAnalysisLayer\":null,\"analysisType\":null,\"layerJoinSettings\":null,\"preservedRenderer\":null,\"clusterInfo\":null,\"lastShareInfo\":null,\"queryForSelection\":null},\"effect\":null,\"timeInfo\":null,\"showLabels\":true,\"popupInfo\":{\"popupElements\":[{\"type\":\"fields\"},{\"type\":\"attachments\",\"displayType\":\"auto\"}],\"showAttachments\":true,\"fieldInfos\":[{\"fieldName\":\"OBJECTID\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":false,\"label\":\"OBJECTID\",\"tooltip\":\"\",\"visible\":false},{\"fieldName\":\"ENAME\",\"isEditable\":true,\"label\":\"Name\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"ID\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":true,\"label\":\"ID\",\"visible\":false},{\"fieldName\":\"CNAME\",\"isEditable\":true,\"label\":\"名稱\",\"visible\":true},{\"fieldName\":\"CNAME_S\",\"isEditable\":true,\"label\":\"CNAME_S\",\"visible\":false},{\"fieldName\":\"Shape__Area\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":false,\"label\":\"Area (m2)\",\"visible\":true},{\"fieldName\":\"Shape__Length\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":false,\"label\":\"Shape__Length\",\"visible\":false}],\"title\":\"Hong Kong 18 Districts\",\"actions\":[]},\"layerDefinition\":{\"objectIdField\":\"OBJECTID\",\"fields\":[{\"alias\":\"OBJECTID\",\"defaultValue\":\"\",\"editable\":false,\"name\":\"OBJECTID\",\"nullable\":false,\"type\":\"esriFieldTypeOID\"},{\"alias\":\"Unique identifier\",\"defaultValue\":\"\",\"editable\":true,\"name\":\"ID\",\"nullable\":true,\"type\":\"esriFieldTypeDouble\"},{\"alias\":\" Name\",\"defaultValue\":\"\",\"editable\":true,\"length\":30,\"name\":\"CNAME\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"Name \",\"defaultValue\":\"\",\"editable\":true,\"length\":30,\"name\":\"CNAME_S\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"Name \",\"defaultValue\":\"\",\"editable\":true,\"length\":30,\"name\":\"ENAME\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"Shape__Area\",\"defaultValue\":null,\"editable\":false,\"name\":\"Shape__Area\",\"nullable\":true,\"type\":\"esriFieldTypeDouble\"},{\"alias\":\"Shape__Length\",\"defaultValue\":null,\"editable\":false,\"name\":\"Shape__Length\",\"nullable\":true,\"type\":\"esriFieldTypeDouble\"}],\"geometryType\":\"polygon\",\"drawingInfo\":{\"renderer\":{\"type\":\"simple\",\"visualVariables\":[],\"symbol\":{\"type\":\"esriSFS\",\"color\":[179,227,255,102],\"outline\":{\"type\":\"esriSLS\",\"color\":[20,20,20,64],\"width\":1.5,\"style\":\"esriSLSShortDot\"},\"style\":\"esriSFSSolid\"}},\"transparency\":0.19999999999999996},\"featureReduction\":null,\"minScale\":9244649,\"maxScale\":36111,\"definitionExpression\":null,\"templates\":[{\"name\":\"New Feature\",\"description\":\"\",\"drawingTool\":\"esriFeatureEditToolPolygon\",\"prototype\":{\"attributes\":{\"ID\":null,\"CNAME\":null,\"CNAME_S\":null,\"ENAME\":null}}}],\"elevationInfo\":null},\"type\":\"feature\"},{\"id\":\"MyLayer\",\"visibility\":true,\"opacity\":1,\"minScale\":0,\"maxScale\":0,\"refreshInterval\":0,\"title\":\"Coordinates\",\"objectIdField\":\"objectId\",\"type\":\"DataLayer\",\"layerType\":\"ArcGISFeatureLayer\",\"popupEnabled\":true,\"disablePopup\":false,\"visible\":true,\"geometryType\":\"point\",\"source\":[{\"attributes\":{},\"geometry\":{\"x\":0,\"y\":0,\"type\":\"point\",\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100}}}],\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"esriMaps\":{\"isTimeEnabled\":\"false\",\"clusterInfo\":null,\"lastShareInfo\":null},\"timeInfo\":null,\"showLabels\":true,\"featureCollection\":{\"layers\":[{\"popupInfo\":{\"popupElements\":[{\"type\":\"fields\",\"fieldInfos\":[{\"fieldName\":\"MapPoints_Latitude\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":true,\"label\":\"Latitude\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Longitude\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":true,\"label\":\"Longitude\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Brand\",\"isEditable\":true,\"label\":\"Brand\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Address\",\"isEditable\":true,\"label\":\"Address\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Site_20name\",\"isEditable\":true,\"label\":\"Site name\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"DimSite_SiteKey\",\"isEditable\":true,\"label\":\"Site code\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"ROW_ID\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"ROW_ID\",\"tooltip\":\"\",\"visible\":true}]}],\"expressionInfos\":[],\"fieldInfos\":[{\"fieldName\":\"MapPoints_Latitude\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":true,\"label\":\"Latitude\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Longitude\",\"format\":{\"digitSeparator\":true,\"places\":2},\"isEditable\":true,\"label\":\"Longitude\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Brand\",\"isEditable\":true,\"label\":\"Brand\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Address\",\"isEditable\":true,\"label\":\"Address\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"MapPoints_Site_20name\",\"isEditable\":true,\"label\":\"Site name\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"DimSite_SiteKey\",\"isEditable\":true,\"label\":\"Site code\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"ROW_ID\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"ROW_ID\",\"tooltip\":\"\",\"visible\":true}],\"title\":\"\",\"actions\":[]},\"effect\":null,\"layerDefinition\":{\"objectIdField\":\"objectId\",\"fields\":[{\"alias\":\"objectId\",\"editable\":false,\"name\":\"objectId\",\"nullable\":false,\"type\":\"esriFieldTypeOID\"},{\"alias\":\"Latitude\",\"editable\":true,\"name\":\"MapPoints_Latitude\",\"nullable\":true,\"type\":\"esriFieldTypeDouble\"},{\"alias\":\"Longitude\",\"editable\":true,\"name\":\"MapPoints_Longitude\",\"nullable\":true,\"type\":\"esriFieldTypeDouble\"},{\"alias\":\"Brand\",\"editable\":true,\"length\":-1,\"name\":\"MapPoints_Brand\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"Address\",\"editable\":true,\"length\":-1,\"name\":\"MapPoints_Address\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"Site name\",\"editable\":true,\"length\":-1,\"name\":\"MapPoints_Site_20name\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"Site code\",\"editable\":true,\"length\":-1,\"name\":\"DimSite_SiteKey\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"ROW_ID\",\"editable\":true,\"name\":\"ROW_ID\",\"nullable\":true,\"type\":\"esriFieldTypeInteger\"}],\"geometryType\":\"point\",\"drawingInfo\":{\"renderer\":{\"type\":\"uniqueValue\",\"visualVariables\":[],\"field1\":\"MapPoints_Brand\",\"legendOptions\":{\"title\":\"Brand\"},\"defaultLabel\":\"Other\",\"uniqueValueGroups\":[{\"classes\":[{\"label\":\"Sinopec\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[246,0,0,230],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"values\":[[\"Sinopec\"]]},{\"label\":\"Shell\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[255,255,0,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"values\":[[\"Shell\"]]},{\"label\":\"Caltex\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[114,114,114,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"values\":[[\"Caltex\"]]},{\"label\":\"Esso\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[6,89,255,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"values\":[[\"Esso\"]]},{\"label\":\"PetroChina\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[220,132,0,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"values\":[[\"PetroChina\"]]}]}],\"uniqueValueInfos\":[{\"label\":\"Sinopec\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[246,0,0,230],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"value\":\"Sinopec\"},{\"label\":\"Shell\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[255,255,0,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"value\":\"Shell\"},{\"label\":\"Caltex\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[114,114,114,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"value\":\"Caltex\"},{\"label\":\"Esso\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[6,89,255,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"value\":\"Esso\"},{\"label\":\"PetroChina\",\"symbol\":{\"type\":\"esriSMS\",\"color\":[220,132,0,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":10,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}},\"value\":\"PetroChina\"}]},\"transparency\":0},\"featureReduction\":null,\"locationProvider\":{\"type\":\"coordinates\",\"lookupFields\":[{\"lookupField\":\"xFieldName\",\"outField\":\"MapPoints_Longitude\"},{\"lookupField\":\"yFieldName\",\"outField\":\"MapPoints_Latitude\"}],\"sourceSR\":4326,\"targetSR\":102100},\"minScale\":0,\"maxScale\":0,\"definitionExpression\":null,\"templates\":[{\"name\":\"New Feature\",\"description\":\"\",\"prototype\":{\"attributes\":{\"MapPoints_Latitude\":null,\"MapPoints_Longitude\":null,\"MapPoints_Brand\":null,\"MapPoints_Address\":null,\"MapPoints_Site_20name\":null,\"DimSite_SiteKey\":null,\"ROW_ID\":null}}}],\"elevationInfo\":null,\"name\":\"Coordinates\",\"type\":\"DataLayer\",\"queryParameters\":{\"tableId\":\"\"}},\"featureSet\":{\"features\":[{\"attributes\":{},\"geometry\":{\"x\":0,\"y\":0,\"type\":\"point\",\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100}}}]}}]}}],\"tables\":[],\"baseMap\":{\"baseMapLayers\":[{\"id\":\"VectorTile_1970\",\"opacity\":1,\"title\":\"Light Gray Base\",\"visibility\":true,\"layerType\":\"VectorTileLayer\",\"styleUrl\":\"https://cdn.arcgis.com/sharing/rest/content/items/291da5eab3a0412593b66d384379f89f/resources/styles/root.json\"},{\"id\":\"VectorTile_7117\",\"opacity\":1,\"title\":\"Light Gray Reference\",\"visibility\":true,\"layerType\":\"VectorTileLayer\",\"styleUrl\":\"https://cdn.arcgis.com/sharing/rest/content/items/1768e8369a214dfab4e2167d5c5f2454/resources/styles/root.json\",\"isReference\":true}],\"title\":\"Light Gray Canvas\"},\"version\":\"2.26\",\"authoringApp\":\"ArcGIS for Power BI\",\"authoringAppVersion\":\"2026.1.970\",\"bookmarks\":[],\"initialState\":{\"viewpoint\":{\"targetGeometry\":{\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"xmin\":52704487.516423516,\"ymin\":2514732.9496961506,\"xmax\":52804467.14942048,\"ymax\":2584290.6454356275}}}}},\"webmapExtensions\":{\"format\":2,\"homeViewpoint\":{\"viewpoint\":{\"rotation\":0,\"scale\":577790.5542885,\"targetGeometry\":{\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"xmin\":52729336.915586315,\"ymin\":2524005.19234287,\"xmax\":52821519.97169819,\"ymax\":2585613.437140692}}}}},\"embedCheckPassed\":false}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapTools": [
+        {
+          "properties": {
+            "basemaps": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "share": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "layerVisible": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "selection": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "geoSearch": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "analysis": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "settings": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "geometryCache": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"key\":\"cachedgeocode@@world\",\"compressionMethod\":\"pako\",\"data\":\"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\"}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapControls": [
+        {
+          "properties": {
+            "zoomTools": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "lockMapExtent": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showHome": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "homeSetting": {
+              "expr": {
+                "Literal": {
+                  "Value": "'home1'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Geographic Distribution of Esso Sites'"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "heading": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Normal'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "customizeSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "spaceBelowTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "ignorePadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "8b310ac7544975d669a4",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "26d68f1a83c62d2e91e0",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MapPoints"
+              }
+            },
+            "Property": "Address"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6e550eeb590928d6199e",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MapPoints"
+              }
+            },
+            "Property": "Brand"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "1fbdc53afa99f2926af9",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MapPoints"
+              }
+            },
+            "Property": "Latitude"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "63770ae50030393bdbbc",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MapPoints"
+              }
+            },
+            "Property": "Longitude"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "25f5b4550b7e23fdf910",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MapPoints"
+              }
+            },
+            "Property": "Site name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4fd8e3546fcfc69be67a",
+        "ordinal": 5,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "MapPoints"
+              }
+            },
+            "Property": "SiteKey"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "daed33f1f800119cec36",
+        "ordinal": 6,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimSite"
+              }
+            },
+            "Property": "SiteKey"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "70080c867f4b2d535ed9",
+        "ordinal": 7,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "(For Visualization) Page1"
+              }
+            },
+            "Property": "Show Brand On Map"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "(",
+              "Entity": "(For Visualization) Page1",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "("
+                        }
+                      },
+                      "Property": "Show Brand On Map"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}
