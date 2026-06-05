@@ -1,0 +1,67 @@
+table Overview
+	lineageTag: 840d8138-4938-442a-b571-9d976b30ec9f
+
+	column 'Site name'
+		dataType: string
+		lineageTag: c6624763-4773-4838-86c1-32c44ac13b9e
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site code'
+		dataType: string
+		lineageTag: 2c95ffc8-7f52-470b-a92c-7b2713cd2982
+		summarizeBy: none
+		sourceColumn: Site code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: ab139792-4fa7-40d4-9796-a102ca7feac7
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: c9dabcc8-06a7-4415-93fe-3758df2d52bb
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: d2998bad-998f-4cc8-854d-dd168b710519
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Address '
+		dataType: string
+		lineageTag: bb507753-34a8-4708-a763-095cdf3cf56a
+		summarizeBy: none
+		sourceColumn: "Address "
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Overview = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Celine Wang\OneDrive - Rosino-Axle\Desktop\Celine Wang\Project Caspian\Replicate\PowerBI Illustration\Esso_Site_Info.xlsx"), null, true),
+				    Overview_Table = Source{[Item="Overview",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Overview_Table,{{"Ref", type any}, {"Site name", type text}, {"Site code", type text}, {"Type", type text}, {"Status", type text}, {"Region", type text}, {"Address ", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Ref"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Columns", each ([Status] = "Open"))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

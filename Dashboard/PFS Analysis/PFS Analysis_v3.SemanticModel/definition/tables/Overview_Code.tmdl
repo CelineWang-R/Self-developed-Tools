@@ -1,0 +1,103 @@
+table Overview_Code
+	lineageTag: e2164c97-0b07-40ec-b240-b43807b0f585
+
+	column 'Site name'
+		dataType: string
+		lineageTag: 47d9a5ee-5586-461c-83f3-5a3624c9e712
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site code'
+		dataType: string
+		lineageTag: 4146a58e-4e47-4b02-a7c9-7ea6a3661d20
+		summarizeBy: none
+		sourceColumn: Site code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 593b4a10-b7d6-4805-bd8b-1456a6bde26a
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 20c1e99c-7098-4837-8276-cb816bacfb78
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 6f1650fe-25c3-418e-a41f-90e5a2efbdef
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Address '
+		dataType: string
+		lineageTag: e35d6c2a-e460-4dbe-98e9-0960109bc332
+		summarizeBy: none
+		sourceColumn: "Address "
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 251c03ba-9f4b-4e95-92a9-d8792d3284bc
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: 390026e2-6094-4b89-92fd-c57e9ba69dac
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 05a408f7-f1f1-4cf4-8e52-730c51a3c1fd
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SiteKey
+		dataType: string
+		lineageTag: 8f9e53e5-a1bf-4665-a9e1-f9d6eba2e221
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Overview_Code = m
+		mode: import
+		source =
+				let
+				    Source = Overview,
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Site code] <> "n/a")),
+				    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows", {"Site code"}, Geo_Code, {"Site code"}, "Geo_Code", JoinKind.LeftOuter),
+				    #"Expanded Geo_Code" = Table.ExpandTableColumn(#"Merged Queries", "Geo_Code", {"District", "Latitude", "Longitude"}, {"District", "Latitude", "Longitude"}),
+				    #"Added Custom" = Table.AddColumn(#"Expanded Geo_Code", "SiteKey", each [Site code])
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

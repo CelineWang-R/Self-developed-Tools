@@ -1,0 +1,145 @@
+table DimSite
+	lineageTag: 3c34fd13-868c-4dc5-9234-5364bd612e97
+
+	column 'Site name'
+		dataType: string
+		lineageTag: f4210a72-aa79-49d1-b29a-2142d8560b1d
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site code'
+		dataType: string
+		lineageTag: 506fbed5-817b-4b58-b352-7a300ce3683c
+		summarizeBy: none
+		sourceColumn: Site code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 431d2695-8574-472c-bef3-b5e2dbe5dced
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 9ab4dbec-7d45-4082-be92-82f9e609787e
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 223c3ffa-cabc-4dad-b0f2-9c2529f6e1ee
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: e43a6c8e-170f-410c-9400-27b0102ea844
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: d5d895b0-0d25-4848-8999-51fb78acff7d
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: f948049e-98fd-4bad-972d-3385620f34b4
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SiteKey
+		dataType: string
+		lineageTag: ef65018d-ac7e-416e-89e1-639e365e96d9
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: a65d2595-4275-4ec9-ad0e-20fa7b8c321b
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lease type'
+		dataType: string
+		lineageTag: 6edbe994-46e3-4976-af59-f83d580656ae
+		summarizeBy: none
+		sourceColumn: Lease type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lease category'
+		dataType: string
+		lineageTag: 7f88cf1e-1d1d-4a3b-b07e-5244cf196c96
+		summarizeBy: none
+		sourceColumn: Lease category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lease expiry'
+		dataType: dateTime
+		formatString: d mmmm\, yyyy
+		lineageTag: 96c0b12f-3a38-4098-8616-d6d42552ca99
+		summarizeBy: none
+		sourceColumn: Lease expiry
+
+		variation Variation
+			isDefault
+			relationship: 346a7109-ad8b-47b2-a756-03a2d20181a1
+			defaultHierarchy: LocalDateTable_192f0ee0-0fb1-4e8a-b88b-e172d4d60b10.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition DimSite = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({Overview_Code, Geo_NoCode}),
+				    #"Added Custom" = Table.AddColumn(Source, "SiteAddress", each let geo = try Text.Trim([#"Address "]) otherwise null,
+				ov = try Text.Trim([Address]) otherwise Null.Type
+				in if geo <> null and geo <>"" then geo else ov),
+				    #"Removed Columns" = Table.RemoveColumns(#"Added Custom",{"Address ", "Address"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"SiteAddress", "Address"}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Renamed Columns", {"SiteKey"}, Lease, {"Site code"}, "Lease", JoinKind.LeftOuter),
+				    #"Expanded Lease" = Table.ExpandTableColumn(#"Merged Queries", "Lease", {"Lease type", "Lease category", "Lease expiry"}, {"Lease type", "Lease category", "Lease expiry"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Expanded Lease","n/a",null,Replacer.ReplaceValue,{"Lease expiry"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Replaced Value",{{"Lease expiry", type date}}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Changed Type","n/a","Others",Replacer.ReplaceText,{"Type"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value1",null,"Others",Replacer.ReplaceValue,{"Lease type"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Replaced Value3",{{"Lease type", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

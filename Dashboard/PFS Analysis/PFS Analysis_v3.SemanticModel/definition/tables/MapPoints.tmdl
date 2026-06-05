@@ -1,0 +1,91 @@
+table MapPoints
+	lineageTag: 5e3adba3-aeaa-47b7-a8f9-d7549aff5c4a
+
+	column 'Site name'
+		dataType: string
+		lineageTag: ec3b89d6-1cba-49e0-9bc8-379df470a1bc
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 10d94a3e-9848-43a2-bc84-e6d83a4a84e2
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column SiteKey
+		dataType: string
+		lineageTag: b61bd051-6780-4525-ade4-24f3be7b755d
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: 196d23dd-d977-46ef-9a31-9c1fc10591a2
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: fd98cd26-e2cb-4d00-908b-799819afff63
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Address
+		dataType: string
+		lineageTag: b228080c-9136-47f6-b89b-dfa1741c411b
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 2d6d9532-b60a-44ba-a1ea-68c6a5902041
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsEssoSite
+		dataType: string
+		lineageTag: 9d14172b-fb58-496a-83ae-b6f85dd09e59
+		summarizeBy: none
+		sourceColumn: IsEssoSite
+
+		annotation SummarizationSetBy = Automatic
+
+	column PointKey
+		dataType: string
+		lineageTag: 55f23c4b-ebf9-4418-b76f-0cdface3b3a5
+		summarizeBy: none
+		sourceColumn: PointKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MapPoints = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({MapPoints_EssoSites, MapPoints_OtherBrands})
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

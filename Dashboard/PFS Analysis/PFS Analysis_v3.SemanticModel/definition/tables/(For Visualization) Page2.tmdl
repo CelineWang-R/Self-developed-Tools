@@ -1,0 +1,92 @@
+table '(For Visualization) Page2'
+	lineageTag: ea3e4a9d-5244-4c72-9d18-5632ea75feca
+
+	measure 'Net Sales (Axis Period)' =
+			
+			VAR p = SELECTEDVALUE(PeriodAxis[Period])
+			VAR s = LOOKUPVALUE(PeriodAxis[StartDate], PeriodAxis[Period], p)
+			VAR e = LOOKUPVALUE(PeriodAxis[EndDate], PeriodAxis[Period], p)
+			RETURN
+			CALCULATE([Net Sales], DATESBETWEEN('Date'[Date], s, e))
+		lineageTag: d7dc7939-deeb-4397-aa83-a1fa2f66c517
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales Volume (Axis Period)' = ```
+			
+			VAR p = SELECTEDVALUE(PeriodAxis[Period])
+			VAR s = LOOKUPVALUE(PeriodAxis[StartDate], PeriodAxis[Period], p)
+			VAR e = LOOKUPVALUE(PeriodAxis[EndDate], PeriodAxis[Period], p)
+			RETURN
+			CALCULATE([Net Sales Volume], DATESBETWEEN('Date'[Date], s, e))
+			
+			```
+		lineageTag: 20688546-4f51-44ab-b7fa-e9bac1ae64cb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales Price(Axis Period)' =
+			
+			VAR p = SELECTEDVALUE(PeriodAxis[Period])
+			VAR s = LOOKUPVALUE(PeriodAxis[StartDate], PeriodAxis[Period], p)
+			VAR e = LOOKUPVALUE(PeriodAxis[EndDate], PeriodAxis[Period], p)
+			RETURN
+			CALCULATE([Avg Price (Weighted)], DATESBETWEEN('Date'[Date], s, e))
+		lineageTag: 79ffbc18-f82c-4aaa-943b-685a3a33e167
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure
+		lineageTag: 6402feae-d7ea-4b09-b202-cc249b149e32
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Remaining Years Text' = [Remaining Years] & " yr"
+		lineageTag: 62f7832b-29ac-440f-b7ba-2d2f88fccf20
+
+	measure 'Waterfall Amount' =
+			
+			SWITCH(SELECTEDVALUE(WaterfallSteps[Step]),
+			    "Gross Sales", [Gross Sales (Selected Period)],
+			    "Revenue Deductions", [Revenue Deductions (Selected Period)],
+			    "Discounts", [Discounts (Selected Period)],
+			    "Net Sales", [Net Sales (Selected Period)]
+			)
+		lineageTag: 626c370c-65e7-4937-b21a-59f06619025d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Waterfall Title' =
+			
+			"Sales Bridge (" & [Selected Period] & ") — Gross → Net"
+		lineageTag: e0d1471a-0ffa-4fc2-adc4-ac3e0e437dc6
+
+	column 'Is 21-year Lease' =
+			
+			VAR lt = TRIM(SELECTEDVALUE(DimSite[Lease type]))
+			RETURN
+			IF(
+			    ISBLANK(lt),
+			    BLANK(),
+			    IF(lt = "21-year", 1, 0)
+			)
+		formatString: 0
+		lineageTag: cec72b85-2128-48fa-88e9-1f5ae9777cc5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = User
+
+	partition '(For Visualization) Page2' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

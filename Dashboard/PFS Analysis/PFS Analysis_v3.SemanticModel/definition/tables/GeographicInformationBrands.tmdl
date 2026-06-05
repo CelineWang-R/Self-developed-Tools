@@ -1,0 +1,69 @@
+table GeographicInformationBrands
+	lineageTag: b85ab431-bb26-4f5e-8935-9684560109ea
+
+	column Brand
+		dataType: string
+		lineageTag: 7fb74c94-9c42-4e0b-ac8f-20f0813e4b82
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site name'
+		dataType: string
+		lineageTag: 1f32a2b4-9528-4989-94e1-31a4f69378db
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: 871955c1-b2d2-402d-a251-1d9bfb0f61fe
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 0c3fb5fb-a27c-4b8f-9f09-d826d0649c42
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: e0067df9-e1b3-4e3f-81ac-9fd9f73e7eca
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: c43661e8-3a21-4d89-a3a8-f22ef133c563
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition GeographicInformationBrands = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Celine Wang\OneDrive - Rosino-Axle\Desktop\Celine Wang\Project Caspian\Replicate\PowerBI Illustration\HK_Site_byBrand.xlsx"), null, true),
+				    GeographicInformationBrands_Table = Source{[Item="GeographicInformationBrands",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(GeographicInformationBrands_Table,{{"Brand", type text}, {"Site name", type text}, {"Address", type text}, {"District", type text}, {"Latitude", type number}, {"Longitude", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

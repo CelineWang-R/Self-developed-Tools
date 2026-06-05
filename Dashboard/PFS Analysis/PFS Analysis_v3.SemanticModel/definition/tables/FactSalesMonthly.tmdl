@@ -1,0 +1,77 @@
+table FactSalesMonthly
+	lineageTag: 5a18ce07-e25c-4243-a208-8069891eb35c
+
+	column 'Site name'
+		dataType: string
+		lineageTag: 57d1df21-2b3d-45b7-beff-ada0c19b24d4
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthText
+		dataType: string
+		lineageTag: c9bb3cee-acac-4efd-8f85-6203ede44adc
+		summarizeBy: none
+		sourceColumn: MonthText
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 3afd6f5b-1d78-467b-9b2c-a721711fdcba
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MonthStart
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9da94e1c-9758-4417-b497-574cd279c4c1
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MonthLabel
+		dataType: string
+		lineageTag: 0705f3b7-7be0-4c2b-9493-6c7e45bef32b
+		summarizeBy: none
+		sourceColumn: MonthLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column SiteKey
+		dataType: string
+		lineageTag: f6b39ff0-2c4d-48e3-b033-fed2c8267e1e
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Metric
+		dataType: string
+		lineageTag: ea9691c2-7863-4a13-831a-e1f87bfd4de0
+		summarizeBy: none
+		sourceColumn: Metric
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSalesMonthly = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({GrossSales, RevenueDeductions, Discounts, NetSales, NetSalesVolume, NetSalesPrice}),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"MonthStart", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

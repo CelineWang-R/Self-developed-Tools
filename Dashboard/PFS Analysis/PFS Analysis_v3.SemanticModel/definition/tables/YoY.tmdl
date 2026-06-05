@@ -1,0 +1,48 @@
+table YoY
+	lineageTag: 007c1b1d-14ae-4263-ae91-e45957101994
+
+	measure 'Prior Period' =
+			
+			VAR p = [Selected Period]
+			RETURN
+			SWITCH(p,
+			    "FY23", "FY22",
+			    "FY24", "FY23",
+			    "TTM25", "FY24",
+			    BLANK()
+			)
+		lineageTag: f53d7248-f46e-4a98-9d82-08a532a32132
+
+	measure 'Net Sales (Prior Period)' = ```
+			
+			VAR pp = [Prior Period]
+			RETURN
+			IF(
+			    ISBLANK(pp),
+			    BLANK(),
+			    CALCULATE([Net Sales (Selected Period)], PeriodSel[Period] = pp)
+			)
+			
+			```
+		lineageTag: da286fca-32f6-4dd8-a077-d188363741b1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales YoY %' =
+			
+			DIVIDE([Net Sales (Selected Period)] - [Net Sales (Prior Period)], [Net Sales (Prior Period)])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7cfd8f93-f3e2-4466-8417-ac31980a5c80
+
+	partition YoY = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

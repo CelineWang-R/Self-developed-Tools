@@ -1,0 +1,38 @@
+table WaterfallSteps
+	lineageTag: 43cf0c2c-c7ed-4ba6-b13f-19a35435b036
+
+	column Step
+		lineageTag: df64b27d-22d8-4899-87f6-3d8b7aa2a412
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Step]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: 4dae596c-a2e4-45c1-b17e-3467a885d378
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition WaterfallSteps = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Step", STRING,
+				    "Sort", INTEGER,
+				    {
+				        {"Gross Sales", 1},
+				        {"Revenue Deductions", 2},
+				        {"Discounts", 3},
+				        {"Net Sales", 4}
+				    }
+				)
+
+	annotation PBI_Id = 014c79f4c558478cbe173ef81e24720e
+

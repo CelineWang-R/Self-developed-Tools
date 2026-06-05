@@ -1,0 +1,36 @@
+table DistrictAxisPlus
+	lineageTag: 6b03fe94-6db6-4f3f-9219-fb498a40014b
+
+	column District
+		lineageTag: 08f13c03-9388-48c7-a72f-231bb809a829
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [District]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: bf9cd5f6-858c-4c63-a7a3-a8c24a358b97
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DistrictAxisPlus = calculated
+		mode: import
+		source =
+				
+				UNION(
+				    SELECTCOLUMNS(
+				        DistrictAxis,
+				        "District", DistrictAxis[District],
+				        "Sort", DistrictAxis[Sort]
+				    ),
+				    ROW("District", "Others", "Sort", 999)
+				)
+
+	annotation PBI_Id = 8131d43c0df74afcb63fb16c8ebe224a
+

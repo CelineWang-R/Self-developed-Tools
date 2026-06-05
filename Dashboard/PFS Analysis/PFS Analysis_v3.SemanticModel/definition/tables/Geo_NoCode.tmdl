@@ -1,0 +1,96 @@
+table Geo_NoCode
+	lineageTag: dfdde105-e243-4066-8c13-0d7ee711dd59
+
+	column 'Site code'
+		dataType: string
+		lineageTag: 14409a74-e677-4107-adb1-b2115c1a74e7
+		summarizeBy: none
+		sourceColumn: Site code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site name'
+		dataType: string
+		lineageTag: 95f22c39-62be-4fcc-a6d6-49565b9e2fa3
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: da049678-efcf-4bb7-b922-a0056ca897c7
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 74e48aab-3159-4074-9e48-66846f6066a7
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: 08480f49-e337-4b02-bf0e-058c1fc1de4c
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 80052252-8cfc-4400-87a7-afc8595f5efc
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Type
+		dataType: string
+		lineageTag: 8608cc3b-1d6a-4018-9e81-093a9cec4fc6
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 9f1cf224-0fa3-4d62-ad29-3ec5845a8404
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column SiteKey
+		dataType: string
+		lineageTag: fa07ba29-4903-4fab-9e7b-27408b224ea9
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Geo_NoCode = m
+		mode: import
+		source =
+				let
+				    Source = GeographicInformation,
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Site code] = "n/a")),
+				    #"Merged Queries" = Table.NestedJoin(#"Filtered Rows", {"Site name"}, Overview_NoCode, {"Site name"}, "Overview_NoCode", JoinKind.LeftOuter),
+				    #"Expanded Overview_NoCode" = Table.ExpandTableColumn(#"Merged Queries", "Overview_NoCode", {"Type", "Status"}, {"Type", "Status"}),
+				    #"Added Custom" = Table.AddColumn(#"Expanded Overview_NoCode", "SiteKey", each Text.Lower(Text.Trim([Site name])) & " | " &
+				Text.Lower(Text.Trim(Text.Replace(Text.Replace([Address], ",", ""), "  ", " "))))
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

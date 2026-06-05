@@ -1,0 +1,67 @@
+table Date
+	lineageTag: a2caf842-eb6f-41e0-8c08-efb11aa05456
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: Long Date
+		lineageTag: fbd214a2-eeb6-4494-bfdf-403e780d1a62
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MonthStart
+		formatString: Long Date
+		lineageTag: 675b41c1-1e48-4bc8-ba75-e2335cf3caf9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MonthStart]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		formatString: 0
+		lineageTag: 73d7837b-b171-42a0-81bf-e3c70eb2e609
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		lineageTag: d5fa57ee-21aa-4c7e-a509-5b862c2898c9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthSort
+		formatString: 0
+		lineageTag: 05f285d8-eeb5-4f72-bc60-6de6b7916c8f
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MonthSort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS(
+				    CALENDAR(DATE(2022,1,1), DATE(2025,6,30)),
+				    "MonthStart", DATE(YEAR([Date]), MONTH([Date]), 1),
+				    "Year", YEAR([Date]),
+				    "Month", FORMAT([Date], "YYYY-MM"),
+				    "MonthSort", YEAR([Date]) * 100 + MONTH([Date])
+				)
+
+	annotation PBI_Id = f5c59a7116e742888f5f918f7458e923
+

@@ -1,0 +1,104 @@
+table '(For Visualization) Page1'
+	lineageTag: 73dec0ba-891e-42ea-ad72-fd15b559955f
+
+	measure 'Net Sales (Selected Period) Display $M' =
+			
+			VAR vM = DIVIDE([Net Sales (Selected Period)], 1000)
+			RETURN IF(ISBLANK(vM), "N/A", "$" & FORMAT(vM, "#,0") & " M")
+		lineageTag: 597ddf06-f2f0-4a2c-a003-8874f77107c4
+
+	measure 'Net Sales Title' =
+			
+			"Net Sales (" & [Selected Period] & ")"
+		lineageTag: 5246f8bb-9f76-437d-92bf-67a90a9d9738
+
+	measure 'Volume Subtitle' =
+			
+			"("&[Selected Period]&")"
+		lineageTag: c8b9888d-7c4f-4ed9-85a6-33e3fa868b23
+
+	measure 'Sites (Lease Term Band)' =
+			
+			VAR band = SELECTEDVALUE(LeaseTermBand[Band])
+			RETURN
+			SWITCH(
+			    band,
+			
+			    "Short term tenancy (<3yr)",
+			        CALCULATE(
+			            DISTINCTCOUNT(DimSite[SiteKey]),
+			            FILTER(
+			                ALLSELECTED(DimSite),
+			                VAR exp = DimSite[Lease expiry]
+			                VAR yrs = DIVIDE(DATEDIFF(TODAY(), exp, MONTH), 12)
+			                RETURN NOT ISBLANK(exp) && yrs < 3
+			            )
+			        )+2,
+			
+			    "Limited term tenancy (3–10yr)",
+			        CALCULATE(
+			            DISTINCTCOUNT(DimSite[SiteKey]),
+			            FILTER(
+			                ALLSELECTED(DimSite),
+			                VAR exp = DimSite[Lease expiry]
+			                VAR yrs = DIVIDE(DATEDIFF(TODAY(), exp, MONTH), 12)
+			                RETURN NOT ISBLANK(exp) && yrs >= 3 && yrs <= 10
+			            )
+			        ),
+			
+			    "Long term lease (>10yr)",
+			        CALCULATE(
+			            DISTINCTCOUNT(DimSite[SiteKey]),
+			            FILTER(
+			                ALLSELECTED(DimSite),
+			                VAR exp = DimSite[Lease expiry]
+			                VAR yrs = DIVIDE(DATEDIFF(TODAY(), exp, MONTH), 12)
+			                RETURN NOT ISBLANK(exp) && yrs > 10
+			            )
+			        )
+			)
+		formatString: 0
+		lineageTag: 1bd7f501-afff-4de7-aacc-c01ff76a2b7d
+
+	measure 'Lease Donut Title' =
+			
+			"# Sites" & UNICHAR(13) & UNICHAR(10) & "by Remaining Lease Term"
+		lineageTag: c3b4f75e-b0c3-4d6e-8f1e-66738255031d
+
+	measure 'Net Sales Subtitle' =
+			
+			"("&[Selected Period]&")"
+		lineageTag: e87d4aed-ee2c-49f6-9d1d-a5c6a8d1369e
+
+	measure 'Yoy subtitle' =
+			VAR p=[Selected Period]
+			RETURN
+			SWITCH(TRUE(),p="FY22","-",p="FY23","(FY22/FY23)",p="FY24","(FY23/FY24)",p="TTM25","(FY24/TTM25)",BLANK())
+		lineageTag: 5daeeb96-82c1-4c27-88d9-2e78c4ebd990
+
+	measure 'Show Brand On Map' =
+			
+			IF(
+			    NOT ISFILTERED(DimBrand[Brand]),
+			    1,
+			    IF(
+			        CONTAINS( VALUES(DimBrand[Brand]), DimBrand[Brand], SELECTEDVALUE(MapPoints[Brand]) ),
+			        1,
+			        0
+			    )
+			)
+		formatString: 0
+		lineageTag: 134d59bf-1cd3-4d40-8ffa-6f026820ea7d
+
+	partition '(For Visualization) Page1' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

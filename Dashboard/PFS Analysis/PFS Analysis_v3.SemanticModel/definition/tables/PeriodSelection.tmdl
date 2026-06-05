@@ -1,0 +1,65 @@
+table PeriodSelection
+	lineageTag: 69038873-938c-46c3-95ee-32ce7bef2a1d
+
+	measure 'Selected Period' =
+			
+			SELECTEDVALUE(PeriodSel[Period], "TTM25")
+		lineageTag: b3cbc2e5-e8bc-4be3-940b-ec539c4bf04e
+
+	measure 'Value (Selected Period)' =
+			
+			VAR p = [Selected Period]
+			VAR s = LOOKUPVALUE(PeriodSel[StartDate], PeriodSel[Period], p)
+			VAR e = LOOKUPVALUE(PeriodSel[EndDate], PeriodSel[Period], p)
+			RETURN
+			CALCULATE([Value], DATESBETWEEN('Date'[Date], s, e))
+		lineageTag: 92fc26d1-95cc-4f4b-9d5c-603bba13a1b4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales (Selected Period)' =
+			
+			CALCULATE([Value (Selected Period)], DimMetric[Metric] = "NetSales")
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 76dd729e-b07c-4f31-a578-83bbc1094a30
+
+	measure 'Gross Sales (Selected Period)' =
+			
+			CALCULATE([Value (Selected Period)], DimMetric[Metric] = "GrossSales")
+		lineageTag: 3c449b66-bf67-48f6-9f5f-3e5866850ca9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Deductions (Selected Period)' =
+			
+			CALCULATE([Value (Selected Period)], DimMetric[Metric] = "RevenueDeductions")
+		lineageTag: 67c7c716-e42e-4084-874f-5c06a15b1ebc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Discounts (Selected Period)' =
+			
+			CALCULATE([Value (Selected Period)], DimMetric[Metric] = "Discounts")
+		lineageTag: 7c68c36d-7375-4e40-9757-ce57fdc04d8f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume (Selected Period)' =
+			
+			CALCULATE([Value (Selected Period)], DimMetric[Metric] = "NetSalesVolume")
+		lineageTag: d8ba52fd-fca5-464c-8452-05d304af5997
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition PeriodSelection = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

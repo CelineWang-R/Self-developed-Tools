@@ -1,0 +1,68 @@
+table Geo_Code
+	lineageTag: 7d6dfbbd-678e-4b50-9fa9-39752c86b608
+
+	column 'Site code'
+		dataType: string
+		lineageTag: ff15a191-3ac4-4779-ac91-0731775b28a9
+		summarizeBy: none
+		sourceColumn: Site code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site name'
+		dataType: string
+		lineageTag: fd93c9ac-c483-41f5-950d-3ab917acc018
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: e0cf4d51-47d4-47ea-b0bb-072158bf93f2
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 35ea1456-5745-4526-a08d-7219521dae6c
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: e87239f9-90d1-49d1-8542-0ebf0843f2d1
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: a4666c84-6941-45eb-9f32-ea27439f3611
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Geo_Code = m
+		mode: import
+		source =
+				let
+				    Source = GeographicInformation,
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Site code] <> "n/a"))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

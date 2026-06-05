@@ -1,0 +1,87 @@
+relationship d78dd693-7004-41ed-adb4-e83f39e57640
+	joinOnDateBehavior: datePartOnly
+	fromColumn: GrossSales.MonthStart
+	toColumn: LocalDateTable_d980a04f-ea2c-4511-b618-519a476f07dc.Date
+
+relationship ffb346ad-1bb6-45e9-b31d-baa0dc1585c7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: NetSales.MonthStart
+	toColumn: LocalDateTable_aa914e20-9e2f-4da0-a790-06407e89a64e.Date
+
+relationship 346a7109-ad8b-47b2-a756-03a2d20181a1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimSite.'Lease expiry'
+	toColumn: LocalDateTable_192f0ee0-0fb1-4e8a-b88b-e172d4d60b10.Date
+
+relationship AutoDetected_7003a6b8-8b47-4456-baed-5e70258c74f0
+	fromColumn: FactSalesMonthly.'Site name'
+	toColumn: Geo_Code.'Site name'
+
+relationship AutoDetected_9acd0122-93f3-4e62-90c7-59d79b0c9081
+	fromColumn: GrossSales.SiteKey
+	toColumn: DimSite.SiteKey
+
+relationship AutoDetected_db3ad781-54d2-4fce-9ef8-dbe8938eb5a5
+	fromColumn: Discounts.SiteKey
+	toColumn: DimSite.SiteKey
+
+relationship AutoDetected_935ccbf1-10af-480f-944d-fbc94c4c91dd
+	fromColumn: NetSales.SiteKey
+	toColumn: DimSite.SiteKey
+
+relationship AutoDetected_6ce7fb5f-b6c6-4c95-ae2c-6e31b19837fe
+	fromColumn: NetSalesVolume.SiteKey
+	toColumn: DimSite.SiteKey
+
+relationship AutoDetected_b3942543-69da-4f70-a388-fedde3c98882
+	fromColumn: NetSalesPrice.SiteKey
+	toColumn: DimSite.SiteKey
+
+relationship AutoDetected_70daf073-d2eb-44a8-9bd3-c08fd2423752
+	fromColumn: RevenueDeductions.SiteKey
+	toColumn: DimSite.SiteKey
+
+relationship 385ecf4c-670a-4071-a581-6cc5b62837bf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PeriodSel.StartDate
+	toColumn: LocalDateTable_8149fd8f-56a3-4503-a28f-4c4106d86ae8.Date
+
+relationship 48a66cea-f3f7-4744-bcc8-a285a281c7ec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PeriodSel.EndDate
+	toColumn: LocalDateTable_bed8f5d0-f1b5-43fa-ad01-2ad65fdcc6ec.Date
+
+relationship 049d886d-07f8-455a-984f-5dfdd366c509
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PeriodAxis.StartDate
+	toColumn: LocalDateTable_8cea2541-125d-4be5-9b72-bf2eccf9708d.Date
+
+relationship 649c8e23-b608-4899-a4ca-c56c17e45bf9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PeriodAxis.EndDate
+	toColumn: LocalDateTable_deb88df8-be35-403d-b805-dea8ac86a629.Date
+
+relationship 8cd63e40-1720-c573-4285-6d33e1898977
+	fromColumn: FactSalesMonthly.SiteKey
+	toColumn: DimSite.SiteKey
+
+relationship c983b8a2-c675-b3af-3a54-917e33c1d237
+	fromColumn: FactSalesMonthly.MonthStart
+	toColumn: Date.Date
+
+relationship 7aa13aae-a695-3de9-182e-95423591c1e3
+	fromColumn: FactSalesMonthly.Metric
+	toColumn: DimMetric.Metric
+
+relationship 4cf749b5-c14a-8f97-8b2b-cc690e39aba7
+	fromColumn: DimSite.District
+	toColumn: DistrictAxisPlus.District
+
+relationship 7ef6f0f8-3fae-b52d-e639-4a8c37032f19
+	fromColumn: DimSite.District
+	toColumn: DistrictAxis.District
+
+relationship 13ef1378-5744-7b0b-20a5-701e7513cca3
+	fromColumn: MapPoints.SiteKey
+	toColumn: DimSite.SiteKey
+

@@ -1,0 +1,49 @@
+table PeriodAxis
+	lineageTag: 45580a66-e62a-4904-bf9d-a3ab544abffd
+
+	column Period
+		lineageTag: 9646dec5-8e45-4f10-afa7-8f27c4c83665
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: PeriodSel[Period]
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		formatString: Long Date
+		lineageTag: 7000e12b-d553-4ed2-8d23-425f320692f9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: PeriodSel[StartDate]
+
+		variation Variation
+			isDefault
+			relationship: 049d886d-07f8-455a-984f-5dfdd366c509
+			defaultHierarchy: LocalDateTable_8cea2541-125d-4be5-9b72-bf2eccf9708d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndDate
+		formatString: Long Date
+		lineageTag: 78a756c1-efbc-4b98-a6af-8dc1260f164d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: PeriodSel[EndDate]
+
+		variation Variation
+			isDefault
+			relationship: 649c8e23-b608-4899-a4ca-c56c17e45bf9
+			defaultHierarchy: LocalDateTable_deb88df8-be35-403d-b805-dea8ac86a629.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition PeriodAxis = calculated
+		mode: import
+		source = PeriodSel
+
+	annotation PBI_Id = 17f04776e96c4ef0bda02cd3fb64b025
+

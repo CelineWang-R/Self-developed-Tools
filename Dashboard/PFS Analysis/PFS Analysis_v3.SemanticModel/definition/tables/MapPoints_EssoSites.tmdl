@@ -1,0 +1,95 @@
+table MapPoints_EssoSites
+	lineageTag: 2fed4159-b38a-42de-849a-e28675a99614
+
+	column 'Site name'
+		dataType: string
+		lineageTag: 4636120d-8f58-4fac-8e74-2e8e2f9763d7
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 94db9d75-ebbb-45b1-a8c9-00ad4cfefb72
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column SiteKey
+		dataType: string
+		lineageTag: 7a4587f1-3a81-4666-bb78-cf3d07b52cd2
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitude
+		dataType: double
+		lineageTag: be98c591-d26a-45bf-9b3e-901079b7bd37
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longitude
+		dataType: double
+		lineageTag: 78a01c23-9777-426e-8920-6fcbf25c345b
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Address
+		dataType: string
+		lineageTag: 090275eb-5b87-4bb3-bc5b-6c4ac128fcd1
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 79997599-72e8-4cae-9b48-9f89708c7670
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsEssoSite
+		dataType: string
+		lineageTag: 0974b831-050e-44fc-8eb6-47965b7624a9
+		summarizeBy: none
+		sourceColumn: IsEssoSite
+
+		annotation SummarizationSetBy = Automatic
+
+	column PointKey
+		dataType: string
+		lineageTag: 0f0ef36a-c769-40b6-8f1c-bccf06b82714
+		summarizeBy: none
+		sourceColumn: PointKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MapPoints_EssoSites = m
+		mode: import
+		source =
+				let
+				    Source = DimSite,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Site name", "District", "SiteKey", "Latitude", "Longitude", "Address"}),
+				    #"Added Custom" = Table.AddColumn(#"Removed Other Columns", "Brand", each "Esso"),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "IsEssoSite", each "TRUE"),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "PointKey", each [SiteKey])
+				in
+				    #"Added Custom2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

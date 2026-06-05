@@ -1,0 +1,33 @@
+table LeaseTermBand
+	lineageTag: 54ab9a3c-62ff-4172-ab34-2988425da753
+
+	column Band
+		lineageTag: 9da6ceec-d0c6-4139-b8c9-55c353dbac02
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Band]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: 16667bae-e31d-4237-b714-0c3eaa6b3f9b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition LeaseTermBand = calculated
+		mode: import
+		source =
+				
+				UNION(
+				    ROW("Band","Short term tenancy (<3yr)","Sort",1),
+				    ROW("Band","Limited term tenancy (3–10yr)","Sort",2),
+				    ROW("Band","Long term lease (>10yr)","Sort",3)
+				)
+
+	annotation PBI_Id = f826bd59ce1a43db93283dcb34d21c59
+

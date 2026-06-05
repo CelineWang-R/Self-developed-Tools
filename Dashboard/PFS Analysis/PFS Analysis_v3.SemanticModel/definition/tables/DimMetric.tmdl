@@ -1,0 +1,17 @@
+table DimMetric
+	lineageTag: 921fb9f8-356e-4936-9041-f319808cacb0
+
+	column Metric
+		lineageTag: 8cef4516-da91-479f-a7bf-3ee866f56181
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: FactSalesMonthly[Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimMetric = calculated
+		mode: import
+		source = DISTINCT(FactSalesMonthly[Metric])
+
+	annotation PBI_Id = 697dd5c4cbed456f99d57578d2c2e3d9
+

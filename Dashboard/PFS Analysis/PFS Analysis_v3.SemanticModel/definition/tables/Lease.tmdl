@@ -1,0 +1,56 @@
+table Lease
+	lineageTag: 35cd4c51-341a-4760-b84c-e2f06023346e
+
+	column 'Site code'
+		dataType: string
+		lineageTag: d4d9468f-719e-4b00-be01-c04c0132d221
+		summarizeBy: none
+		sourceColumn: Site code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Site name'
+		dataType: string
+		lineageTag: ab184f64-1d94-49e2-8542-42a7462e9081
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lease type'
+		dataType: string
+		lineageTag: 223940ed-771b-41ce-844c-e9090ce93bf1
+		summarizeBy: none
+		sourceColumn: Lease type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lease category'
+		dataType: string
+		lineageTag: da85a2c8-bbb2-4c0a-9ac4-9c7c5c1de559
+		summarizeBy: none
+		sourceColumn: Lease category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lease expiry'
+		dataType: string
+		lineageTag: dd2f03b2-0a91-47c6-a3b7-d74defbfd4b3
+		summarizeBy: none
+		sourceColumn: Lease expiry
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Lease = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Celine Wang\OneDrive - Rosino-Axle\Desktop\Celine Wang\Project Caspian\Replicate\PowerBI Illustration\Esso_Site_Info.xlsx"), null, true),
+				    Lease_Table = Source{[Item="Lease",Kind="Table"]}[Data]
+				in
+				    Lease_Table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

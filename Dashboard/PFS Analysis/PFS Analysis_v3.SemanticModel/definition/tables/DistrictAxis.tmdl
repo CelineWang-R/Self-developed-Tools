@@ -1,0 +1,88 @@
+table DistrictAxis
+	lineageTag: dd65fcb7-2c31-4d68-9711-d9feff2d2635
+
+	column District
+		lineageTag: d77efddf-18c9-4598-9652-d8eba025b7b9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [District]
+		sortByColumn: Sort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sort
+		formatString: 0
+		lineageTag: 1991a2f8-d730-40ef-9ab1-4c9b16ccc05e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Sort]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DistrictAxis = calculated
+		mode: import
+		source =
+				
+				VAR Base =
+				    DATATABLE(
+				        "District", STRING,
+				        {
+				            {"Central and Western"},
+				            {"Eastern"},
+				            {"Islands"},
+				            {"Kowloon City"},
+				            {"Kwai Tsing"},
+				            {"Kwun Tong"},
+				            {"North"},
+				            {"Sai Kung"},
+				            {"Sha Tin"},
+				            {"Sham Shui Po"},
+				            {"Southern"},
+				            {"Tai Po"},
+				            {"Tsuen Wan"},
+				            {"Tuen Mun"},
+				            {"Wan Chai"},
+				            {"Wong Tai Sin"},
+				            {"Yau Tsim Mong"},
+				            {"Yuen Long"},
+				            {"Macau"}
+				        }
+				    )
+				VAR WithManual =
+				    ADDCOLUMNS(
+				        Base,
+				        "ManualSort",
+				            SWITCH(
+				                [District],
+				                "Macau", 1,
+				                "Yuen Long", 2,
+				                "Kwai Tsing", 3,
+				                "Sham Shui Po", 4,
+				                "Kowloon City", 5,
+				                "Sai Kung", 6,
+				                "Sha Tin", 7,
+				                "Southern", 8,
+				                "Wan Chai", 9,
+				                BLANK()
+				            )
+				    )
+				VAR Remaining =
+				    FILTER(WithManual, ISBLANK([ManualSort]))
+				VAR WithFinalSort =
+				    ADDCOLUMNS(
+				        WithManual,
+				        "Sort",
+				            COALESCE(
+				                [ManualSort],
+				                9 + RANKX(Remaining, [District], , ASC, Dense)
+				            )
+				    )
+				RETURN
+				SELECTCOLUMNS(
+				    WithFinalSort,
+				    "District", [District],
+				    "Sort", [Sort]
+				)
+
+	annotation PBI_Id = 9d9c8964651d4e649b3f8b6a5ac60f1d
+

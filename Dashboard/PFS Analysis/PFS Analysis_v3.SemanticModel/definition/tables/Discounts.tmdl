@@ -1,0 +1,94 @@
+table Discounts
+	lineageTag: 72c57cfc-318c-4097-b594-b868ff65e269
+
+	column 'Site name'
+		dataType: string
+		lineageTag: dd9a1904-ae7c-4b88-a901-14e2ae306431
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthText
+		dataType: string
+		lineageTag: 0cfbe1b4-5dfe-48e7-8fae-e83f91631174
+		summarizeBy: none
+		sourceColumn: MonthText
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 55b7fde8-3135-42fb-9834-6dae4af628e1
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MonthStart
+		dataType: string
+		lineageTag: 07fab22c-7794-4e2f-b5e1-4aca547eba3b
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthLabel
+		dataType: string
+		lineageTag: 90a61d36-ef5a-40ab-be8b-b12586161d8e
+		summarizeBy: none
+		sourceColumn: MonthLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column SiteKey
+		dataType: string
+		lineageTag: 3261cb08-0bc4-4c25-b495-27fdbfc7a7ec
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Metric
+		dataType: string
+		lineageTag: 152c7087-3270-40f7-b8f8-0bbc941e0be6
+		summarizeBy: none
+		sourceColumn: Metric
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Discounts = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Celine Wang\OneDrive - Rosino-Axle\Desktop\Celine Wang\Project Caspian\Replicate\PowerBI Illustration\Esso_Site_Info.xlsx"), null, true),
+				    Discounts_Table = Source{[Item="Discounts",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Discounts_Table,{{"Site name", type text}, {"FY22", type number}, {"FY23", type number}, {"FY24", type number}, {"TTM25", type number}, {"6m24", type number}, {"6m25", type number}, {"Jan22", type number}, {"Feb22", type number}, {"Mar22", type number}, {"Apr22", type number}, {"May22", type number}, {"Jun22", type number}, {"Jul22", type number}, {"Aug22", type number}, {"Sep22", type number}, {"Oct22", type number}, {"Nov22", type number}, {"Dec22", type number}, {"Jan23", type number}, {"Feb23", type number}, {"Mar23", type number}, {"Apr23", type number}, {"May23", type number}, {"Jun23", type number}, {"Jul23", type number}, {"Aug23", type number}, {"Sep23", type number}, {"Oct23", type number}, {"Nov23", type number}, {"Dec23", type number}, {"Jan24", type number}, {"Feb24", type number}, {"Mar24", type number}, {"Apr24", type number}, {"May24", type number}, {"Jun24", type number}, {"Jul24", type number}, {"Aug24", type number}, {"Sep24", type number}, {"Oct24", type number}, {"Nov24", type number}, {"Dec24", type number}, {"Jan25", type number}, {"Feb25", type number}, {"Mar25", type number}, {"Apr25", type number}, {"May25", type number}, {"Jun25", type number}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"FY22", "FY23", "FY24", "TTM25", "6m24", "6m25"}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Removed Columns", {"Site name"}, "Attribute", "Value"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "MonthText"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "MonthStart", each let
+				    t = Text.Remove([MonthText], {" ", "-","/"}),
+				    mmm = Text.Proper(Text.Start(t, 3)),
+				    yy  = Text.End(t, 2),
+				    year = 2000 + Number.FromText(yy),
+				    monthMap = [
+				        Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6,
+				        Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12
+				    ],
+				    monthNum = Record.Field(monthMap, mmm)
+				in
+				    #date(year, monthNum, 1)),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "MonthLabel", each Date.ToText([MonthStart], "yyyy-MM")),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "Metric", each "Discounts"),
+				    #"Merged Queries" = Table.NestedJoin(#"Added Custom2", {"Site name"}, Overview_Code, {"Site name"}, "Overview_Code", JoinKind.LeftOuter),
+				    #"Expanded Overview_Code" = Table.ExpandTableColumn(#"Merged Queries", "Overview_Code", {"SiteKey"}, {"SiteKey"})
+				in
+				    #"Expanded Overview_Code"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

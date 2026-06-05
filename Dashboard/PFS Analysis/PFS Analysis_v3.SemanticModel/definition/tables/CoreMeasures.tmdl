@@ -1,0 +1,64 @@
+table CoreMeasures
+	lineageTag: 2ef83e2b-1d9f-4081-af37-8ad98172867e
+
+	measure Value =
+			
+			SUM(FactSalesMonthly[Value])
+		lineageTag: 0b9ea7fc-0ecf-4d20-9585-a2fff68b47ab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales' =
+			
+			CALCULATE([Value], DimMetric[Metric] = "NetSales")
+		lineageTag: a3a43fa2-aacf-40f2-9c8a-24fb1e648258
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Sales' =
+			
+			CALCULATE([Value], DimMetric[Metric] = "GrossSales")
+		lineageTag: f64bac03-18ea-430f-b9da-880026f1dd2d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Deductions' =
+			
+			CALCULATE([Value], DimMetric[Metric] = "RevenueDeductions")
+		lineageTag: 208ac135-4daf-4125-a791-0bcbd46c4e28
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Discounts =
+			
+			CALCULATE([Value], DimMetric[Metric] = "Discounts")
+		lineageTag: eadc2ffa-45ee-4338-b48b-b282ee7a24d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Sales Volume' =
+			
+			CALCULATE([Value], DimMetric[Metric] = "NetSalesVolume")
+		lineageTag: d8608008-da66-4339-b372-2418080cb677
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Price (Weighted)' =
+			
+			DIVIDE([Net Sales], [Net Sales Volume])
+		lineageTag: b5dc8295-46a2-4653-98ff-d39eff0c8c81
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition CoreMeasures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

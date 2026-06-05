@@ -1,0 +1,60 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Overview","GeographicInformation","Lease","GrossSales","RevenueDeductions","Discounts","NetSales","NetSalesVolume","NetSalesPrice","Overview_Code","Overview_NoCode","Geo_Code","Geo_NoCode","DimSite","FactSalesMonthly","CoreMeasures","PeriodSelection","YoY","SiteCounts","LeaseRisk","(For Visualization) Page1","(For Visualization) Page2","GeographicInformationBrands","MapPoints_EssoSites","MapPoints_OtherBrands","MapPoints"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Overview
+ref table GeographicInformation
+ref table Lease
+ref table GrossSales
+ref table Discounts
+ref table NetSales
+ref table NetSalesVolume
+ref table NetSalesPrice
+ref table RevenueDeductions
+ref table Overview_Code
+ref table Overview_NoCode
+ref table Geo_Code
+ref table Geo_NoCode
+ref table DimSite
+ref table DateTableTemplate_303cf487-1f2d-4949-a647-b510e2611852
+ref table LocalDateTable_d980a04f-ea2c-4511-b618-519a476f07dc
+ref table LocalDateTable_aa914e20-9e2f-4da0-a790-06407e89a64e
+ref table LocalDateTable_192f0ee0-0fb1-4e8a-b88b-e172d4d60b10
+ref table FactSalesMonthly
+ref table Date
+ref table PeriodSel
+ref table LocalDateTable_8149fd8f-56a3-4503-a28f-4c4106d86ae8
+ref table LocalDateTable_bed8f5d0-f1b5-43fa-ad01-2ad65fdcc6ec
+ref table PeriodAxis
+ref table LocalDateTable_8cea2541-125d-4be5-9b72-bf2eccf9708d
+ref table LocalDateTable_deb88df8-be35-403d-b805-dea8ac86a629
+ref table DimMetric
+ref table CoreMeasures
+ref table PeriodSelection
+ref table YoY
+ref table SiteCounts
+ref table LeaseRisk
+ref table '(For Visualization) Page1'
+ref table '(For Visualization) Page2'
+ref table WaterfallSteps
+ref table LeaseTermBand
+ref table DistrictAxis
+ref table DistrictAxisPlus
+ref table GeographicInformationBrands
+ref table MapPoints_EssoSites
+ref table MapPoints_OtherBrands
+ref table MapPoints
+ref table DimBrand
+
+ref cultureInfo en-US
+

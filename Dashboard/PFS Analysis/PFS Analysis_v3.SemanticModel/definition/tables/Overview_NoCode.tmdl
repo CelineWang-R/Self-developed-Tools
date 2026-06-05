@@ -1,0 +1,54 @@
+table Overview_NoCode
+	lineageTag: fd96fce1-40c3-42eb-8e67-1155a7e4c97f
+
+	column 'Site name'
+		dataType: string
+		lineageTag: ff5f6f7c-8d34-4f51-9366-7800163fc1c1
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		dataType: string
+		lineageTag: 4ec144a5-ee2e-414a-9643-3dad10498edc
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 079470fc-66f7-4918-b1f0-25429f58fb0a
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: dbb7ed27-544c-4ff8-b3c6-9f6f17c79bcc
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Overview_NoCode = m
+		mode: import
+		source =
+				let
+				    Source = Overview,
+				    #"Filtered Rows" = Table.SelectRows(Source, each ([Site code] = "n/a")),
+				    #"Removed Columns" = Table.RemoveColumns(#"Filtered Rows",{"Site code", "Address "}),
+				    #"Grouped Rows" = Table.Group(#"Removed Columns", {"Site name"}, {{"AllRows", each _, type table [Site name=nullable text, Type=nullable text, Status=nullable text, Region=nullable text]}}),
+				    #"Added Custom" = Table.AddColumn(#"Grouped Rows", "Type", each Table.First([AllRows])[Type]),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Status", each Table.First([AllRows])[Status]),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "Region", each Table.First([AllRows])[Region]),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Added Custom2",{"AllRows"})
+				in
+				    #"Removed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

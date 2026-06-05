@@ -1,0 +1,56 @@
+table PeriodSel
+	lineageTag: 4c41e0a6-1e56-43ae-b2c3-fdeb6976ac73
+
+	column Period
+		lineageTag: fc9e0c35-b91f-42b6-b62f-9a688eb94715
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Period]
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		formatString: Long Date
+		lineageTag: 3b419ae1-cf3d-4495-a6bf-250b892cb956
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [StartDate]
+
+		variation Variation
+			isDefault
+			relationship: 385ecf4c-670a-4071-a581-6cc5b62837bf
+			defaultHierarchy: LocalDateTable_8149fd8f-56a3-4503-a28f-4c4106d86ae8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndDate
+		formatString: Long Date
+		lineageTag: 356f655e-198d-4a3e-837d-5cc659adc9c0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [EndDate]
+
+		variation Variation
+			isDefault
+			relationship: 48a66cea-f3f7-4744-bcc8-a285a281c7ec
+			defaultHierarchy: LocalDateTable_bed8f5d0-f1b5-43fa-ad01-2ad65fdcc6ec.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition PeriodSel = calculated
+		mode: import
+		source =
+				
+				UNION(
+				    ROW("Period","FY22","StartDate",DATE(2022,1,1),"EndDate",DATE(2022,12,31)),
+				    ROW("Period","FY23","StartDate",DATE(2023,1,1),"EndDate",DATE(2023,12,31)),
+				    ROW("Period","FY24","StartDate",DATE(2024,1,1),"EndDate",DATE(2024,12,31)),
+				    ROW("Period","TTM25","StartDate",DATE(2024,7,1),"EndDate",DATE(2025,6,30))
+				)
+
+	annotation PBI_Id = 4f7f12c3e1a94eceb21e66bfbc8a9789
+

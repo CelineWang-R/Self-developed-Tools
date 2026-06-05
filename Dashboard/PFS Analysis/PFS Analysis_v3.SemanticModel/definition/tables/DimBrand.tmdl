@@ -1,0 +1,21 @@
+table DimBrand
+	lineageTag: 43e15324-b2d3-4823-977b-2833444d7b94
+
+	column Brand
+		lineageTag: f01ac4f6-050e-4321-bbc1-fd3bb2698908
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Brand]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimBrand = calculated
+		mode: import
+		source =
+				
+				DISTINCT(
+				    SELECTCOLUMNS(MapPoints, "Brand", MapPoints[Brand])
+				)
+
+	annotation PBI_Id = 48bc9ecad00841c9a037599f98a74e39
+

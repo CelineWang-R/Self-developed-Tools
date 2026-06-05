@@ -1,0 +1,91 @@
+table LeaseRisk
+	lineageTag: 56e3ca3f-b82e-4bcc-bac0-54b40e849f77
+
+	measure 'Lease Risk Bucket (Measure)' =
+			
+			VAR exp = SELECTEDVALUE(DimSite[Lease expiry])
+			RETURN
+			IF(
+			    ISBLANK(exp) && HASONEVALUE(DimSite[SiteKey]),
+			    "N/A",
+			    IF(
+			        ISBLANK(exp),
+			        "Multiple sites",
+			        VAR d = DATEDIFF(TODAY(), exp, DAY)
+			        RETURN
+			            SWITCH(TRUE(),
+			                d < 0, "<0",
+			                d <= 365*5, "0-5 year",
+			                d <= 365*10, "5-10 year",
+			                ">10 year"
+			            )
+			    )
+			)
+		lineageTag: 3b8eec24-3a47-4dcb-9117-ad3b9a59088c
+
+	measure 'Days to Lease Expiry' =
+			
+			VAR exp = SELECTEDVALUE(DimSite[Lease expiry])
+			RETURN IF(ISBLANK(exp), BLANK(), DATEDIFF(TODAY(), exp, DAY))
+		formatString: 0
+		lineageTag: f0923104-08ae-4cf1-97a1-211856680efb
+
+	measure 'Days to Expiry (Clamp 0-5y)' =
+			
+			VAR d = [Days to Lease Expiry]
+			RETURN IF(ISBLANK(d), BLANK(), MAX(0, MIN(d, 365*5)))
+		formatString: 0
+		lineageTag: bd99a7e8-30ed-4724-a3cd-d48997a2f66d
+
+	measure 'Horizon Days (21y)' = 365*21
+		formatString: 0
+		lineageTag: 2973fe7c-2c82-4be8-9b33-a56e5d7cc58f
+
+	measure 'Remaining Years' =
+			
+			VAR exp = SELECTEDVALUE(DimSite[Lease expiry])
+			VAR days = IF(ISBLANK(exp), BLANK(), DATEDIFF(TODAY(), exp, DAY))
+			RETURN
+			IF(
+			    ISBLANK(days),
+			    BLANK(),
+			    ROUND( DIVIDE(days, 365.25), 1 )   -- 1 decimal, e.g. 5.2
+			)
+		formatString: 0.0
+		lineageTag: 2a1d7067-5192-4bb9-992e-f1d64c93caea
+
+	measure 'Lease Term Years (Gauge Max)' =
+			
+			21
+		formatString: 0
+		lineageTag: 81794a8e-9c72-4573-9b76-b69d99a00e37
+
+	measure 'Remaining Years (0-21)' = ```
+			
+			VAR v = [Remaining Years]
+			RETURN
+			IF(
+			    ISBLANK(v),
+			    BLANK(),
+			    MAX(0, MIN(v, 21))
+			)
+			
+			```
+		lineageTag: 8d4d2cf9-8350-46a5-a992-b911619c3b24
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition LeaseRisk = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

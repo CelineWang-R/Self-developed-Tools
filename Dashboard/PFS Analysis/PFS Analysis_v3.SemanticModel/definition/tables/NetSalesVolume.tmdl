@@ -1,0 +1,94 @@
+table NetSalesVolume
+	lineageTag: eab36812-7120-4947-b302-81c5dc6b08c7
+
+	column 'Site name'
+		dataType: string
+		lineageTag: de61930b-1616-4fab-8b2c-1057d1cda928
+		summarizeBy: none
+		sourceColumn: Site name
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthText
+		dataType: string
+		lineageTag: fa09f850-9f58-4737-9b80-8adc7436aa8c
+		summarizeBy: none
+		sourceColumn: MonthText
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: double
+		lineageTag: 2ac8c7a3-dcce-48bd-a3f0-7f85e269b7a4
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MonthStart
+		dataType: string
+		lineageTag: 004f7579-8230-4c63-860d-50ed233c0dc7
+		summarizeBy: none
+		sourceColumn: MonthStart
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthLabel
+		dataType: string
+		lineageTag: 176613a9-d513-41ef-8f39-615da400ce96
+		summarizeBy: none
+		sourceColumn: MonthLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column SiteKey
+		dataType: string
+		lineageTag: 49f855bb-8559-4d05-8372-f2cef84f1130
+		summarizeBy: none
+		sourceColumn: SiteKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Metric
+		dataType: string
+		lineageTag: 0af5de2b-fb86-4754-8f2a-7cd41bfee190
+		summarizeBy: none
+		sourceColumn: Metric
+
+		annotation SummarizationSetBy = Automatic
+
+	partition NetSalesVolume = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Celine Wang\OneDrive - Rosino-Axle\Desktop\Celine Wang\Project Caspian\Replicate\PowerBI Illustration\Esso_Site_Info.xlsx"), null, true),
+				    NetSalesVolume_Table = Source{[Item="NetSalesVolume",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(NetSalesVolume_Table,{{"Site name", type text}, {"FY22", type number}, {"FY23", type number}, {"FY24", type number}, {"TTM25", type number}, {"6m24", type number}, {"6m25", type number}, {"Jan22", type number}, {"Feb22", type number}, {"Mar22", type number}, {"Apr22", type number}, {"May22", type number}, {"Jun22", type number}, {"Jul22", type number}, {"Aug22", type number}, {"Sep22", type number}, {"Oct22", type number}, {"Nov22", type number}, {"Dec22", type number}, {"Jan23", type number}, {"Feb23", type number}, {"Mar23", type number}, {"Apr23", type number}, {"May23", type number}, {"Jun23", type number}, {"Jul23", type number}, {"Aug23", type number}, {"Sep23", type number}, {"Oct23", type number}, {"Nov23", type number}, {"Dec23", type number}, {"Jan24", type number}, {"Feb24", type number}, {"Mar24", type number}, {"Apr24", type number}, {"May24", type number}, {"Jun24", type number}, {"Jul24", type number}, {"Aug24", type number}, {"Sep24", type number}, {"Oct24", type number}, {"Nov24", type number}, {"Dec24", type number}, {"Jan25", type number}, {"Feb25", type number}, {"Mar25", type number}, {"Apr25", type number}, {"May25", type number}, {"Jun25", type number}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"FY22", "FY23", "FY24", "TTM25", "6m24", "6m25"}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Removed Columns", {"Site name"}, "Attribute", "Value"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "MonthText"}}),
+				    #"Added Custom" = Table.AddColumn(#"Renamed Columns", "MonthStart", each let
+				    t = Text.Remove([MonthText], {" ", "-","/"}),
+				    mmm = Text.Proper(Text.Start(t, 3)),
+				    yy  = Text.End(t, 2),
+				    year = 2000 + Number.FromText(yy),
+				    monthMap = [
+				        Jan=1, Feb=2, Mar=3, Apr=4, May=5, Jun=6,
+				        Jul=7, Aug=8, Sep=9, Oct=10, Nov=11, Dec=12
+				    ],
+				    monthNum = Record.Field(monthMap, mmm)
+				in
+				    #date(year, monthNum, 1)),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "MonthLabel", each Date.ToText([MonthStart], "yyyy-MM")),
+				    #"Added Custom2" = Table.AddColumn(#"Added Custom1", "Metric", each "NetSalesVolume"),
+				    #"Merged Queries" = Table.NestedJoin(#"Added Custom2", {"Site name"}, Overview_Code, {"Site name"}, "Overview_Code", JoinKind.LeftOuter),
+				    #"Expanded Overview_Code" = Table.ExpandTableColumn(#"Merged Queries", "Overview_Code", {"SiteKey"}, {"SiteKey"})
+				in
+				    #"Expanded Overview_Code"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
