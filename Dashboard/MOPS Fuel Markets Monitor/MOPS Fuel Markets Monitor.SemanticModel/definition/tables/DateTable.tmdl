@@ -1,0 +1,84 @@
+table DateTable
+	lineageTag: a546d4e8-dbb8-4de6-a1fb-2dcb2619fa6a
+
+	column Date
+		formatString: General Date
+		lineageTag: 1dc20eee-e512-4e6c-97ed-20da8c5ce5c2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: ca1a0b82-db05-4b82-9be3-1eca8b1caecc
+			defaultHierarchy: LocalDateTable_6057de9f-0d21-4daa-8bfe-e1e9e674c1c1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfYear =
+			
+			DATEDIFF(
+			    DATE( YEAR('DateTable'[Date]), 1, 1 ),
+			    'DateTable'[Date],
+			    DAY
+			) + 1
+		formatString: 0
+		lineageTag: 1d86c45a-502e-4d27-8562-14797060feb8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year =
+			
+			YEAR('DateTable'[Date])
+		formatString: 0
+		lineageTag: 5fbffd6a-2a6e-4228-9ede-2947d4b545aa
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthDay = ```
+			
+			IF(
+			    MONTH('DateTable'[Date]) = 2 && DAY('DateTable'[Date]) = 29,
+			    "02-28",                            
+			    FORMAT('DateTable'[Date], "MM-DD")
+			)
+			```
+		lineageTag: b4188120-cbd8-46e8-9d7f-58e0ec52dbac
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthLabel = FORMAT('DateTable'[Date], "MMM")
+		lineageTag: 52abcb0d-77d6-4ff0-a44c-1ad2f0f34741
+		summarizeBy: none
+		sortByColumn: MonthSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthDayText =
+			
+			FORMAT(DATE(2024, 1, 1) + 'DateTable'[DayOfYear] - 1, "MMM dd")
+		lineageTag: 24f6b48d-87df-4263-8611-f5f2598982af
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthSort = MONTH('DateTable'[Date])
+		formatString: 0
+		lineageTag: 29e6dad7-314d-4bce-84c5-888e912366e4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DateTable = calculated
+		mode: import
+		source = ```
+				
+				CALENDAR( DATE(2023,1,1), DATE(2025,12,31) )
+				
+				```
+
+	annotation PBI_Id = 9fcd223d40f3487b81805202b126ee75
+

@@ -1,0 +1,81 @@
+table DAX
+	lineageTag: 90df17a8-53d5-4b38-93be-fe35965bf988
+
+	measure 'Selected Price' = ```
+			
+			SELECTEDVALUE('SourceData'[Price in USD])
+			
+			```
+		lineageTag: 68fccdef-fbfc-4666-a0b5-30a1059be556
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Change vs Previous' =
+			
+			VAR SelDate = SELECTEDVALUE('SourceData'[Date])
+			VAR SelIndex = SELECTEDVALUE('SourceData'[Index_name])
+			VAR SelPrice = SELECTEDVALUE('SourceData'[Price in USD])
+			VAR PrevDate =
+			    CALCULATE(
+			        MAX('SourceData'[Date]),
+			        FILTER(
+			            ALL('SourceData'),
+			            'SourceData'[Index_name] = SelIndex &&
+			            'SourceData'[Date] < SelDate
+			        )
+			    )
+			VAR PrevPrice =
+			    CALCULATE(
+			        MAX('SourceData'[Price in USD]),
+			        FILTER(
+			            ALL('SourceData'),
+			            'SourceData'[Index_name] = SelIndex &&
+			            'SourceData'[Date] = PrevDate
+			        )
+			    )
+			RETURN
+			SelPrice - PrevPrice
+		lineageTag: 4004a046-d65f-4b15-9252-282cc527f93c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Show Full Range Chart' =
+			
+			IF(SELECTEDVALUE(ChartView[View]) = "Full Range", 1, 0)
+		formatString: 0
+		lineageTag: db632e4f-5c8a-4d14-8456-65a9f88be189
+
+	measure 'Show Seasonal Chart' =
+			
+			IF(SELECTEDVALUE(ChartView[View]) = "Seasonal Comparison", 1, 0)
+		formatString: 0
+		lineageTag: d9576552-e32b-4b49-9a15-35e55ea27032
+
+	measure 'Monthly Price' = ```
+			
+			AVERAGEX(
+			    VALUES('DateTable'[Month]),
+			    CALCULATE(
+			        AVERAGE('SourceData'[Price in USD])
+			    )
+			)
+			
+			```
+		lineageTag: 5fa52f2b-3bd1-429a-97bc-e045286940b3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DAX = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

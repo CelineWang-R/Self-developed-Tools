@@ -1,0 +1,105 @@
+table SourceData
+	lineageTag: dcb445c2-b7e7-437b-897b-3e2e81b4aef2
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 930fe988-edda-486a-ab50-23375e034ad7
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Index_name
+		dataType: string
+		lineageTag: aef7680a-901b-4ae4-8115-be284b8bc343
+		summarizeBy: none
+		sourceColumn: Index_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Price in USD'
+		dataType: double
+		lineageTag: 37f45ffc-1ead-45f9-8383-edfb2d4a8841
+		summarizeBy: sum
+		sourceColumn: Price in USD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Source
+		dataType: string
+		lineageTag: ff22e612-8bc0-49e0-95f0-20abd428a164
+		summarizeBy: none
+		sourceColumn: Source
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c5e220f-b5d0-4f8b-a9ae-31d5af0efda9
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsLast7Days
+		dataType: string
+		lineageTag: 5fd76c9f-199d-4643-a5e0-6f69015f6b21
+		summarizeBy: none
+		sourceColumn: IsLast7Days
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsLast30Days
+		dataType: string
+		lineageTag: 0e6131c7-d2f2-4c92-a291-231c1cbd3cae
+		summarizeBy: none
+		sourceColumn: IsLast30Days
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year = ```
+			YEAR('SourceData'[Date])
+			
+			```
+		formatString: 0
+		lineageTag: 12e4d9f5-6096-4feb-a9e9-26a6863dae49
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayofYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a36198d-99ac-4342-93a3-6609f916b005
+		summarizeBy: sum
+		sourceColumn: DayofYear
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SourceData = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Celine Wang\OneDrive - Rosino-Axle\Desktop\Celine Wang\MOPS Dashboard\Demo Dashboard\Demo Source Data\Daily Index.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Index_name", type text}, {"Price in USD", type number}, {"Source", type text}}),
+				    #"Sorted Rows" = Table.Sort(#"Changed Type",{{"Date", Order.Descending}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Sorted Rows", "Index", 1, 1, Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Added Index", "IsLast7Days", each if [Index] <= 7 then 1 else 0),
+				    #"Added Custom1" = Table.AddColumn(#"Added Custom", "IsLast30Days", each if [Index] <= 30 then 1 else 0),
+				    #"Inserted Day of Year" = Table.AddColumn(#"Added Custom1", "Day of Year", each Date.DayOfYear([Date]), Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Inserted Day of Year",{{"Day of Year", "DayofYear"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

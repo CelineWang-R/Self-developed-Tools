@@ -1,0 +1,25 @@
+table ChartView
+	lineageTag: 9c9c00f4-bd5f-4db6-bb6a-c593cdce7d8e
+
+	column View
+		lineageTag: db476909-137c-4aca-aa42-5a9ce3bbb735
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [View]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ChartView = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "View", STRING,
+				    {
+				        {"Full Range"},
+				        {"Seasonal Comparison"}
+				    }
+				)
+
+	annotation PBI_Id = e43552f918394138ac8fad9bee703000
+

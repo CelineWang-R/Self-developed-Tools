@@ -1,0 +1,74 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 17.5
+          },
+          "nodeIndex": "SourceData",
+          "nodeLineageTag": "dcb445c2-b7e7-437b-897b-3e2e81b4aef2",
+          "size": {
+            "height": 348,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 670,
+            "y": 16.5
+          },
+          "nodeIndex": "DAX",
+          "nodeLineageTag": "90df17a8-53d5-4b38-93be-fe35965bf988",
+          "size": {
+            "height": 275,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 392.5
+          },
+          "nodeIndex": "ChartView",
+          "nodeLineageTag": "9c9c00f4-bd5f-4db6-bb6a-c593cdce7d8e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 300,
+            "y": 392
+          },
+          "nodeIndex": "DateTable",
+          "nodeLineageTag": "a546d4e8-dbb8-4de6-a1fb-2dcb2619fa6a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 5
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
